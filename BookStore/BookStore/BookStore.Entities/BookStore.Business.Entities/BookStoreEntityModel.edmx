@@ -14,6 +14,8 @@
     <EntitySet Name="LoginCredentials" EntityType="BookStoreEntityModel.Store.LoginCredentials" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Media" EntityType="BookStoreEntityModel.Store.Media" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Roles" EntityType="BookStoreEntityModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Purchases" EntityType="BookStoreEntityModel.Store.Purchases" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ratings" EntityType="BookStoreEntityModel.Store.Ratings" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserRole" EntityType="BookStoreEntityModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DeliveryOrder" Association="BookStoreEntityModel.Store.DeliveryOrder">
       <End Role="Delivery" EntitySet="Deliveries" />
@@ -46,6 +48,22 @@
     <AssociationSet Name="MediaStock" Association="BookStoreEntityModel.Store.MediaStock">
       <End Role="Media" EntitySet="Media" />
       <End Role="Stock" EntitySet="Stocks" />
+    </AssociationSet>
+    <AssociationSet Name="PurchaseUser" Association="BookStoreEntityModel.Store.PurchaseUser">
+      <End Role="Purchase" EntitySet="Purchases" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="PurchaseMedia" Association="BookStoreEntityModel.Store.PurchaseMedia">
+      <End Role="Purchase" EntitySet="Purchases" />
+      <End Role="Media" EntitySet="Media" />
+    </AssociationSet>
+    <AssociationSet Name="RatingMedia" Association="BookStoreEntityModel.Store.RatingMedia">
+      <End Role="Rating" EntitySet="Ratings" />
+      <End Role="Media" EntitySet="Media" />
+    </AssociationSet>
+    <AssociationSet Name="RatingUser" Association="BookStoreEntityModel.Store.RatingUser">
+      <End Role="Rating" EntitySet="Ratings" />
+      <End Role="User" EntitySet="Users" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
@@ -113,6 +131,7 @@
     <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Genre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Stocks_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Roles">
@@ -121,6 +140,24 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RatingId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Purchases">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="Medium_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ratings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Like" Type="bit" Nullable="false" />
+    <Property Name="Medium_Id" Type="int" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UserRole">
     <Key>
@@ -202,6 +239,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PurchaseUser">
+    <End Role="Purchase" Type="BookStoreEntityModel.Store.Purchases" Multiplicity="*" />
+    <End Role="User" Type="BookStoreEntityModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PurchaseMedia">
+    <End Role="Purchase" Type="BookStoreEntityModel.Store.Purchases" Multiplicity="*" />
+    <End Role="Media" Type="BookStoreEntityModel.Store.Media" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="Medium_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RatingMedia">
+    <End Role="Rating" Type="BookStoreEntityModel.Store.Ratings" Multiplicity="*" />
+    <End Role="Media" Type="BookStoreEntityModel.Store.Media" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="Medium_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RatingUser">
+    <End Role="Rating" Type="BookStoreEntityModel.Store.Ratings" Multiplicity="*" />
+    <End Role="User" Type="BookStoreEntityModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UserRole_User">
     <End Role="User" Type="BookStoreEntityModel.Store.Users" Multiplicity="1" />
     <End Role="UserRole" Type="BookStoreEntityModel.Store.UserRole" Multiplicity="*" />
@@ -267,6 +352,24 @@
             <End Role="Media" EntitySet="Media" />
             <End Role="Stock" EntitySet="Stocks" />
           </AssociationSet>
+          <EntitySet Name="Purchases" EntityType="BookStoreEntityModel.Purchase" />
+          <AssociationSet Name="PurchaseUser" Association="BookStoreEntityModel.PurchaseUser">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="PurchaseMedia" Association="BookStoreEntityModel.PurchaseMedia">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <EntitySet Name="Ratings" EntityType="BookStoreEntityModel.Rating" />
+          <AssociationSet Name="RatingMedia" Association="BookStoreEntityModel.RatingMedia">
+            <End Role="Rating" EntitySet="Ratings" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="RatingUser" Association="BookStoreEntityModel.RatingUser">
+            <End Role="Rating" EntitySet="Ratings" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -280,6 +383,8 @@
           <Property Type="String" Name="Email" Nullable="false" ConcurrencyMode="None" />
           <Property Type="Binary" Name="Revision" Nullable="false" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <NavigationProperty Name="Roles" Relationship="BookStoreEntityModel.UserRole" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Purchases" Relationship="BookStoreEntityModel.PurchaseUser" FromRole="User" ToRole="Purchase" />
+          <NavigationProperty Name="Ratings" Relationship="BookStoreEntityModel.RatingUser" FromRole="User" ToRole="Rating" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -353,6 +458,9 @@
           <Property Type="String" Name="Genre" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" />
           <NavigationProperty Name="Stocks" Relationship="BookStoreEntityModel.MediaStock" FromRole="Media" ToRole="Stock" />
+          <Property Name="UserId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Purchases" Relationship="BookStoreEntityModel.PurchaseMedia" FromRole="Media" ToRole="Purchase" />
+          <NavigationProperty Name="Ratings" Relationship="BookStoreEntityModel.RatingMedia" FromRole="Media" ToRole="Rating" />
         </EntityType>
         <Association Name="OrderItemMedia">
           <End Type="BookStoreEntityModel.OrderItem" Role="OrderItem" Multiplicity="*" />
@@ -365,6 +473,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" Nullable="false" />
           <NavigationProperty Name="User" Relationship="BookStoreEntityModel.UserRole" FromRole="Role" ToRole="User" />
+          <Property Name="RatingId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="UserRole">
           <End Type="BookStoreEntityModel.User" Role="User" Multiplicity="*" />
@@ -373,6 +482,39 @@
         <Association Name="MediaStock">
           <End Type="BookStoreEntityModel.Media" Role="Media" Multiplicity="1" />
           <End Type="BookStoreEntityModel.Stock" Role="Stock" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="User" Relationship="BookStoreEntityModel.PurchaseUser" FromRole="Purchase" ToRole="User" />
+          <NavigationProperty Name="Medium" Relationship="BookStoreEntityModel.PurchaseMedia" FromRole="Purchase" ToRole="Media" />
+        </EntityType>
+        <Association Name="PurchaseUser">
+          <End Type="BookStoreEntityModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <End Type="BookStoreEntityModel.User" Role="User" Multiplicity="1" />
+        </Association>
+        <Association Name="PurchaseMedia">
+          <End Type="BookStoreEntityModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <End Type="BookStoreEntityModel.Media" Role="Media" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Medium" Relationship="BookStoreEntityModel.RatingMedia" FromRole="Rating" ToRole="Media" />
+          <Property Name="Like" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="BookStoreEntityModel.RatingUser" FromRole="Rating" ToRole="User" />
+        </EntityType>
+        <Association Name="RatingMedia">
+          <End Type="BookStoreEntityModel.Rating" Role="Rating" Multiplicity="*" />
+          <End Type="BookStoreEntityModel.Media" Role="Media" Multiplicity="1" />
+        </Association>
+        <Association Name="RatingUser">
+          <End Type="BookStoreEntityModel.Rating" Role="Rating" Multiplicity="*" />
+          <End Type="BookStoreEntityModel.User" Role="User" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -445,6 +587,7 @@
           <ScalarProperty Name="Author" ColumnName="Author" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -453,6 +596,22 @@
         <MappingFragment StoreEntitySet="Roles">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RatingId" ColumnName="RatingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Purchases">
+      <EntityTypeMapping TypeName="IsTypeOf(BookStoreEntityModel.Purchase)">
+        <MappingFragment StoreEntitySet="Purchases">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ratings">
+      <EntityTypeMapping TypeName="IsTypeOf(BookStoreEntityModel.Rating)">
+        <MappingFragment StoreEntitySet="Ratings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Like" ColumnName="Like" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -513,6 +672,38 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="PurchaseUser" TypeName="BookStoreEntityModel.PurchaseUser" StoreEntitySet="Purchases">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Purchase">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PurchaseMedia" TypeName="BookStoreEntityModel.PurchaseMedia" StoreEntitySet="Purchases">
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Medium_Id" />
+      </EndProperty>
+      <EndProperty Name="Purchase">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RatingMedia" TypeName="BookStoreEntityModel.RatingMedia" StoreEntitySet="Ratings">
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Medium_Id" />
+      </EndProperty>
+      <EndProperty Name="Rating">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RatingUser" TypeName="BookStoreEntityModel.RatingUser" StoreEntitySet="Ratings">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Rating">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -533,12 +724,12 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="BookStoreEntityModel" ZoomLevel="74" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
-        <EntityTypeShape EntityType="BookStoreEntityModel.User" Width="1.5" PointX="3.625" PointY="1" Height="2.3648893229166661" />
-        <EntityTypeShape EntityType="BookStoreEntityModel.Delivery" Width="1.5" PointX="0.5" PointY="0.875" Height="1.9802864583333339" />
+      <Diagram Name="BookStoreEntityModel" ZoomLevel="64" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+        <EntityTypeShape EntityType="BookStoreEntityModel.User" Width="1.5" PointX="3.5" PointY="0.5" Height="2.3648893229166661" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Delivery" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333339" />
         <EntityTypeShape EntityType="BookStoreEntityModel.Order" Width="1.5" PointX="0.5" PointY="3.875" Height="2.5571907552083326" />
         <EntityTypeShape EntityType="BookStoreEntityModel.OrderItem" Width="1.5" PointX="0.5" PointY="7.375" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="BookStoreEntityModel.Stock" Width="1.5" PointX="5.375" PointY="7.375" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Stock" Width="1.625" PointX="9.125" PointY="7.375" Height="1.5956835937499996" />
         <AssociationConnector Association="BookStoreEntityModel.DeliveryOrder">
           <ConnectorPoint PointX="1.25" PointY="2.8552864583333339" />
           <ConnectorPoint PointX="1.25" PointY="3.875" />
@@ -552,22 +743,28 @@
           <ConnectorPoint PointX="4.375" PointY="5.1535953776041659" />
           <ConnectorPoint PointX="2" PointY="5.1535953776041659" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="BookStoreEntityModel.LoginCredential" Width="1.5" PointX="6.625" PointY="0.5" Height="1.427958984375" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.LoginCredential" Width="1.5" PointX="6.125" PointY="0.5" Height="1.427958984375" />
         <AssociationConnector Association="BookStoreEntityModel.CustomerLoginCredential">
           <ConnectorPoint PointX="5.125" PointY="1.4639794921875" />
           <ConnectorPoint PointX="6.625" PointY="1.4639794921875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="BookStoreEntityModel.Media" Width="1.5" PointX="3" PointY="7.375" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Media" Width="1.5" PointX="3.875" PointY="7.375" Height="1.9802864583333335" />
         <AssociationConnector Association="BookStoreEntityModel.OrderItemMedia">
           <ConnectorPoint PointX="2" PointY="8.172841796875" />
           <ConnectorPoint PointX="3" PointY="8.172841796875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="BookStoreEntityModel.Role" Width="1.5" PointX="6.75" PointY="2.625" Height="1.4279589843749996" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Role" Width="1.5" PointX="8.5" PointY="1.625" Height="1.4279589843749996" />
         <AssociationConnector Association="BookStoreEntityModel.UserRole">
           <ConnectorPoint PointX="5.125" PointY="2.9373478190104167" />
           <ConnectorPoint PointX="6.75" PointY="2.9373478190104167" />
         </AssociationConnector>
         <AssociationConnector Association="BookStoreEntityModel.MediaStock" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Purchase" Width="1.5" PointX="3.625" PointY="4.75" FillColor="Red" />
+        <AssociationConnector Association="BookStoreEntityModel.PurchaseUser" />
+        <AssociationConnector Association="BookStoreEntityModel.PurchaseMedia" />
+        <EntityTypeShape EntityType="BookStoreEntityModel.Rating" Width="1.5" PointX="6.5" PointY="6.75" FillColor="Red" />
+        <AssociationConnector Association="BookStoreEntityModel.RatingMedia" />
+        <AssociationConnector Association="BookStoreEntityModel.RatingUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

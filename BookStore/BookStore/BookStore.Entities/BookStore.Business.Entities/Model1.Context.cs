@@ -33,5 +33,7 @@ namespace BookStore.Business.Entities
         public virtual DbSet<LoginCredential> LoginCredentials { get; set; }
         public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Purchase> Purchases { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
     }
 }

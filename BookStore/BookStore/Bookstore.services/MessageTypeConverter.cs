@@ -47,6 +47,12 @@ namespace BookStore.Services
 
             AutoMapper.Mapper.CreateMap<BookStore.Business.Entities.LoginCredential,
                 BookStore.Services.MessageTypes.LoginCredential>();
+
+            AutoMapper.Mapper.CreateMap<BookStore.Business.Entities.Rating,
+                BookStore.Services.MessageTypes.Rating>();
+
+            AutoMapper.Mapper.CreateMap<BookStore.Business.Entities.Purchase,
+                BookStore.Services.MessageTypes.Purchase>();
         }
 
         public void InitializeExternalToInternalMappings()
@@ -65,6 +71,12 @@ namespace BookStore.Services
 
             AutoMapper.Mapper.CreateMap<BookStore.Services.MessageTypes.LoginCredential,
                 BookStore.Business.Entities.LoginCredential>();
+
+            AutoMapper.Mapper.CreateMap<BookStore.Services.MessageTypes.Rating,
+                BookStore.Business.Entities.Rating>();
+
+            AutoMapper.Mapper.CreateMap<BookStore.Services.MessageTypes.Purchase,
+                BookStore.Business.Entities.Purchase>();
         }
 
         public Destination Convert<Source, Destination>(Source s)

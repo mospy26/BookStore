@@ -14,12 +14,21 @@ namespace BookStore.Business.Entities
     
     public partial class Media
     {
+        public Media()
+        {
+            this.Purchases = new HashSet<Purchase>();
+            this.Ratings = new HashSet<Rating>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public string Genre { get; set; }
         public decimal Price { get; set; }
+        public int UserId { get; set; }
     
         public virtual Stock Stocks { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

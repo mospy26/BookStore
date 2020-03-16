@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D1D8EA0F-B22D-47AB-A706-6AC60CB2806E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BookStore.Services", "BookStore.Services", "{BB38E6C9-7D40-4A7E-B3D0-3EEB878A4EBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BookStore.Presentation", "BookStore.Presentation", "{625531F7-F011-483D-A7A2-285848E835A8}"
+	ProjectSection(SolutionItems) = preProject
+		BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx.sql = BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx.sql
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{C2D987A4-AD05-4C0B-B285-5B64B0132DF9}"
 EndProject

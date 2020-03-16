@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2019 16:45:12
--- Generated from EDMX file: C:\Users\gre403\Documents\Basser\COMP5348 2019\BookStore\BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx
+-- Date Created: 03/15/2020 23:00:16
+-- Generated from EDMX file: C:\Users\Mustafa Fulwala\Documents\BookStore\BookStore\BookStore\BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -41,6 +41,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MediaStock]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Media] DROP CONSTRAINT [FK_MediaStock];
 GO
+IF OBJECT_ID(N'[dbo].[FK_PurchaseUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Purchases] DROP CONSTRAINT [FK_PurchaseUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PurchaseMedia]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Purchases] DROP CONSTRAINT [FK_PurchaseMedia];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RatingMedia]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Ratings] DROP CONSTRAINT [FK_RatingMedia];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RatingUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Ratings] DROP CONSTRAINT [FK_RatingUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -69,6 +81,12 @@ IF OBJECT_ID(N'[dbo].[Media]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Roles];
+GO
+IF OBJECT_ID(N'[dbo].[Purchases]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Purchases];
+GO
+IF OBJECT_ID(N'[dbo].[Ratings]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Ratings];
 GO
 IF OBJECT_ID(N'[dbo].[UserRole]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UserRole];
@@ -141,6 +159,7 @@ CREATE TABLE [dbo].[Media] (
     [Author] nvarchar(max)  NOT NULL,
     [Genre] nvarchar(max)  NOT NULL,
     [Price] decimal(18,0)  NOT NULL,
+    [UserId] int  NOT NULL,
     [Stocks_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -148,7 +167,25 @@ GO
 -- Creating table 'Roles'
 CREATE TABLE [dbo].[Roles] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL
+    [Name] nvarchar(max)  NOT NULL,
+    [RatingId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Purchases'
+CREATE TABLE [dbo].[Purchases] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [User_Id] int  NOT NULL,
+    [Medium_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Ratings'
+CREATE TABLE [dbo].[Ratings] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Like] bit  NOT NULL,
+    [Medium_Id] int  NOT NULL,
+    [User_Id] int  NOT NULL
 );
 GO
 
@@ -208,6 +245,18 @@ GO
 -- Creating primary key on [Id] in table 'Roles'
 ALTER TABLE [dbo].[Roles]
 ADD CONSTRAINT [PK_Roles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Purchases'
+ALTER TABLE [dbo].[Purchases]
+ADD CONSTRAINT [PK_Purchases]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Ratings'
+ALTER TABLE [dbo].[Ratings]
+ADD CONSTRAINT [PK_Ratings]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -333,6 +382,66 @@ GO
 CREATE INDEX [IX_FK_MediaStock]
 ON [dbo].[Media]
     ([Stocks_Id]);
+GO
+
+-- Creating foreign key on [User_Id] in table 'Purchases'
+ALTER TABLE [dbo].[Purchases]
+ADD CONSTRAINT [FK_PurchaseUser]
+    FOREIGN KEY ([User_Id])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PurchaseUser'
+CREATE INDEX [IX_FK_PurchaseUser]
+ON [dbo].[Purchases]
+    ([User_Id]);
+GO
+
+-- Creating foreign key on [Medium_Id] in table 'Purchases'
+ALTER TABLE [dbo].[Purchases]
+ADD CONSTRAINT [FK_PurchaseMedia]
+    FOREIGN KEY ([Medium_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PurchaseMedia'
+CREATE INDEX [IX_FK_PurchaseMedia]
+ON [dbo].[Purchases]
+    ([Medium_Id]);
+GO
+
+-- Creating foreign key on [Medium_Id] in table 'Ratings'
+ALTER TABLE [dbo].[Ratings]
+ADD CONSTRAINT [FK_RatingMedia]
+    FOREIGN KEY ([Medium_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RatingMedia'
+CREATE INDEX [IX_FK_RatingMedia]
+ON [dbo].[Ratings]
+    ([Medium_Id]);
+GO
+
+-- Creating foreign key on [User_Id] in table 'Ratings'
+ALTER TABLE [dbo].[Ratings]
+ADD CONSTRAINT [FK_RatingUser]
+    FOREIGN KEY ([User_Id])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RatingUser'
+CREATE INDEX [IX_FK_RatingUser]
+ON [dbo].[Ratings]
+    ([User_Id]);
 GO
 
 -- --------------------------------------------------

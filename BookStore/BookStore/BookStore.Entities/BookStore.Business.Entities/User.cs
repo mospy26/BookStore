@@ -18,6 +18,8 @@ namespace BookStore.Business.Entities
         {
             this.Orders = new HashSet<Order>();
             this.Roles = new HashSet<Role>();
+            this.Purchases = new HashSet<Purchase>();
+            this.Ratings = new HashSet<Rating>();
         }
     
         public int Id { get; set; }
@@ -29,5 +31,7 @@ namespace BookStore.Business.Entities
         public virtual ICollection<Order> Orders { get; set; }
         public virtual LoginCredential LoginCredential { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }
