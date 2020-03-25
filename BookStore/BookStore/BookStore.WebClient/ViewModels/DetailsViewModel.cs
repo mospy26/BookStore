@@ -10,7 +10,7 @@ namespace BookStore.WebClient.ViewModels
     public class DetailsViewModel
     {
 
-        private ICatalogueService CatalogueService
+        public ICatalogueService CatalogueService
         {
             get
             {
@@ -18,8 +18,8 @@ namespace BookStore.WebClient.ViewModels
             }
         }
 
-        private List<Media> RecommendedMedia { get; set; }
-        private Media CurrentMedia { get; set; }
+        public List<Media> RecommendedMedia { get; set; }
+        public Media CurrentMedia { get; set; }
 
 
         public DetailsViewModel(int pMediaId)

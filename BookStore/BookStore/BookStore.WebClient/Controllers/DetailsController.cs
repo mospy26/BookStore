@@ -22,7 +22,7 @@ namespace BookStore.WebClient.Controllers
             DetailsViewModel = new DetailsViewModel(pMediaId.Value);
 
             DetailsViewModel.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId.Value);
-            return View(DetailsViewModel.GetMediaById(pMediaId.Value));
+            return View(DetailsViewModel);
         }
     }
 }
