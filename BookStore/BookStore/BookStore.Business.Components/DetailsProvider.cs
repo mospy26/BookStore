@@ -118,7 +118,7 @@ namespace BookStore.Business.Components
         {
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
             {
-                return lContainer.Purchases.Include("User").Include("Media").SingleOrDefault(p => p.Medium.Id == pMediaId && p.User.Id == pUserId) != null;
+                return lContainer.Purchases.Include("User").Include("Medium").SingleOrDefault(p => p.Medium.Id == pMediaId && p.User.Id == pUserId) != null;
             }
         }
     }
