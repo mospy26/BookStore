@@ -53,7 +53,7 @@ namespace BookStore.WebClient.Controllers
         public ActionResult InsufficientStock(String pItem)
         {
             return View(new InsufficientStockViewModel(pItem));
-        }
+            }
 
         private Media FetchMediaById(int pId)
         {

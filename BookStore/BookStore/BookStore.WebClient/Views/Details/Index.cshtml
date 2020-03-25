@@ -12,19 +12,21 @@
     </tr>
     <tr>
         <td> Name: </td>
-        <td> @Model.Title </td>
+        <td> @Model.CurrentMedia.Title </td>
     </tr>
     <tr>
         <td> Author: </td>
-        <td> @Model.Director </td>
+        <td> @Model.CurrentMedia.Director </td>
     </tr>
     <tr>
         <td> Genre: </td>
-        <td> @Model.Genre </td>
+        <td> @Model.CurrentMedia.Genre </td>
     </tr>
     <tr>
         <td> Price: </td>
-        <td> @Model.Price </td>
+        <td> @Model.CurrentMedia.Price </td>
     </tr>
 </table>
+
+@Model.RecommendedMedia
 

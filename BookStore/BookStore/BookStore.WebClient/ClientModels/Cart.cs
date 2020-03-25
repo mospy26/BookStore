@@ -28,7 +28,6 @@ namespace BookStore.WebClient.ClientModels
         {
             return mOrderItems.Sum(oi => oi.Media.Price * oi.Quantity);
         }
-
         public void Clear()
         {
             mOrderItems.Clear();
@@ -44,8 +43,8 @@ namespace BookStore.WebClient.ClientModels
             foreach (OrderItem lItem in mOrderItems)
             {
                 lOrder.OrderItems.Add(lItem);
+                AddPurchase(pUserCache, lItem);
             }
-
 
             ServiceFactory.Instance.OrderService.SubmitOrder(lOrder);
             pUserCache.UpdateUserCache();
@@ -55,6 +54,25 @@ namespace BookStore.WebClient.ClientModels
         public void RemoveLine(Media pMedia)
         {
             mOrderItems.RemoveAll(oi => oi.Media.Id == pMedia.Id);
+        }
+
+        public void RateMedia(bool pLike, UserCache pUserCache, int pMediaId)
+        {
+            ServiceFactory.Instance.CatalogueService.RateMedia(pLike, pUserCache.Model, ServiceFactory.Instance.CatalogueService.GetMediaById(pMediaId));
+        }
+
+        public void AddPurchase(UserCache pUserCache, OrderItem pOrderItem)
+        {
+            if (CheckIfPurchaseAlreadyExists(pUserCache, pOrderItem.Media.Id)) return;
+            ServiceFactory.Instance.CatalogueService.AddPurchase(
+                ServiceFactory.Instance.CatalogueService.GetMediaById(pOrderItem.Media.Id),
+                pUserCache.Model
+                );
+        }
+
+        private bool CheckIfPurchaseAlreadyExists(UserCache pUserCache, int pMediaId)
+        {
+            return (ServiceFactory.Instance.CatalogueService.CheckIfPurchaseExistsForMedia(pMediaId, pUserCache.Model.Id));
         }
     }
 }

@@ -26,9 +26,27 @@ namespace BookStore.WebClient.ViewModels
             }
         }
 
+        public List<Media> RecommendedItems { get; set; }
+
         public Media GetMediaById(int id)
         {
             return CatalogueService.GetMediaById(id);
+        }
+
+        public Tuple<int, int> GetLikesAndDislikesForMedia(int pMediaId)
+        {
+            return CatalogueService.GetLikesAndDislikesForMedia(pMediaId);
+        }
+
+        public Rating GetRating(int pUserId, int pMediaId)
+        {
+            return CatalogueService.GetRating(pUserId, pMediaId);
+        }
+
+        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId)
+        {
+            RecommendedItems = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            return RecommendedItems;
         }
     }
 }

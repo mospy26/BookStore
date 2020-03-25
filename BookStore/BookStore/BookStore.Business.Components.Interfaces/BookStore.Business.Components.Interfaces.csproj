@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDetailsProvider.cs" />
     <Compile Include="ICatalogueProvider.cs" />
     <Compile Include="IRoleProvider.cs" />
     <Compile Include="IUserProvider.cs" />

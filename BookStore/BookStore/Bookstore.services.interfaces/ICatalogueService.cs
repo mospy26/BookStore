@@ -15,5 +15,23 @@ namespace BookStore.Services.Interfaces
 
         [OperationContract]
         Media GetMediaById(int pId);
+
+        [OperationContract]
+        void RateMedia(bool pLike, User pUser, Media pMedia);
+
+        [OperationContract]
+        Rating GetRating(int pUserId, int pMediaId);
+
+        [OperationContract]
+        Tuple<int, int> GetLikesAndDislikesForMedia(int pMediaId);
+
+        [OperationContract]
+        List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId);
+
+        [OperationContract]
+        bool CheckIfPurchaseExistsForMedia(int pMediaId, int pUserId);
+
+        [OperationContract]
+        void AddPurchase(Media pMedia, User pUser);
     }
 }

@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Binders\LoggedInUserBinder.cs" />
     <Compile Include="ViewModels\CheckOutViewModel.cs" />
+    <Compile Include="ViewModels\DetailsViewModel.cs" />
     <Compile Include="ViewModels\EditUserDetailsViewModel.cs" />
     <Compile Include="ViewModels\InsufficientStockViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

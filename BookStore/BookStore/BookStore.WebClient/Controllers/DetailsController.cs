@@ -10,14 +10,7 @@ namespace BookStore.WebClient.Controllers
     public class DetailsController : Controller 
     {
 
-        private CatalogueViewModel CatalogueViewModel
-        {
-            get
-            {
-                return new CatalogueViewModel();
-            }
-        }
-
+        private DetailsViewModel DetailsViewModel { get; set; }
         // GET: Rated
         public ActionResult Index(int? pMediaId, string pReturnUrl)
         {
@@ -26,7 +19,10 @@ namespace BookStore.WebClient.Controllers
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
 
-            return View(CatalogueViewModel.GetMediaById(pMediaId.Value));
+            DetailsViewModel = new DetailsViewModel(pMediaId.Value);
+
+            DetailsViewModel.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId.Value);
+            return View(DetailsViewModel.GetMediaById(pMediaId.Value));
         }
     }
 }
