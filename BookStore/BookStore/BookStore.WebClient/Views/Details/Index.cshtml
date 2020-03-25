@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details for @Model.Title </h2>
+
+<table>
+    <tr>
+        <th></th>
+    </tr>
+    <tr>
+        <td> Name: </td>
+        <td> @Model.Title </td>
+    </tr>
+    <tr>
+        <td> Author: </td>
+        <td> @Model.Director </td>
+    </tr>
+    <tr>
+        <td> Genre: </td>
+        <td> @Model.Genre </td>
+    </tr>
+    <tr>
+        <td> Price: </td>
+        <td> @Model.Price </td>
+    </tr>
+</table>
+

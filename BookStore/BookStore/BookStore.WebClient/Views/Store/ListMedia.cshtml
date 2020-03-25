@@ -19,11 +19,18 @@
                 Price: $@item.Price |
                 Quantity: @item.StockCount
 
-                @using(Html.BeginForm("AddToCart", "Cart")) { 
-                    @Html.Hidden("pMediaId", item.Id) 
+                @using (Html.BeginForm("AddToCart", "Cart"))
+                {
+                    @Html.Hidden("pMediaId", item.Id)
                     @Html.Hidden("pReturnUrl", ViewContext.HttpContext.Request.Url.PathAndQuery)
                     <input type="submit" value="+ Add to Cart" />
-                } 
+                }
+                @using (Html.BeginForm("Index", "Details"))
+                {
+                    @Html.Hidden("pMediaId", item.Id)
+                    @Html.Hidden("pReturnUrl", ViewContext.HttpContext.Request.Url.PathAndQuery)
+                    <input type="submit" value="Details" />
+                }
             </td>
         </tr>
     }

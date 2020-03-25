@@ -25,5 +25,10 @@ namespace BookStore.WebClient.ViewModels
                 return CatalogueService.GetMediaItems(0, Int32.MaxValue);
             }
         }
+
+        public Media GetMediaById(int id)
+        {
+            return CatalogueService.GetMediaById(id);
+        }
     }
 }
