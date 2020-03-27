@@ -36,7 +36,7 @@ namespace BookStore.WebClient.ViewModels
 
         public DetailsViewModel(int pMediaId, int pUserId)
         {
-            RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
             CurrentMedia = GetMediaById(pMediaId);
             HasPurchased = HasPurchasedMedia(pMediaId, pUserId);
             RatingForBook = GetRating(pUserId, pMediaId);
@@ -58,9 +58,9 @@ namespace BookStore.WebClient.ViewModels
             return CatalogueService.GetRating(pUserId, pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId)
+        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
         {
-            RecommendedMedia = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            RecommendedMedia = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
             return RecommendedMedia;
         }
 

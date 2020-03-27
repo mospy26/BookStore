@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -43,9 +44,9 @@ namespace BookStore.WebClient.ViewModels
             return CatalogueService.GetRating(pUserId, pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId)
+        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
         {
-            RecommendedItems = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            RecommendedItems = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
             return RecommendedItems;
         }
     }

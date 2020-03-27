@@ -21,7 +21,6 @@ namespace BookStore.WebClient.Controllers
 
             DetailsViewModel = new DetailsViewModel(pMediaId.Value, pUserCache.Model.Id);
 
-            DetailsViewModel.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId.Value);
             return View(DetailsViewModel);
         }
 

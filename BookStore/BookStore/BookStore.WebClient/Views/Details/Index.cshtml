@@ -42,23 +42,28 @@
     <h3> Thanks for Purchasing this book. </h3>
     if (Model.RatingForBook == null)
     {
-        <p> You have not rated this book yet. Please rate it. </p>
+        <i> You have not rated this book yet. Please rate it. </i>
         <p>@Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
           @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)</p>
     }
     else if (Model.RatingForBook.Like == true)
     {
-        <p> You have Liked this book. </p>
-        @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
+        <i> You have Liked this book. </i>
+        <p> @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)</p>
     }
     else if (Model.RatingForBook.Like == false)
     {
-        <p> You have Disliked this book. </p>
-        @Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
+        <i> You have Disliked this book. </i>
+        <p>@Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)</p>
     }
 }
 
 <h3> Recommended Media: </h3>
+
+@if (Model.RecommendedMedia.Count == 0)
+{
+    <i> Sorry, no one has liked this book yet ... </i>
+}
 
 @foreach (var media in Model.RecommendedMedia)
 {

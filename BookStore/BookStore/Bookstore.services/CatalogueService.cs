@@ -70,12 +70,12 @@ namespace BookStore.Services
             return DetailsProvider.GetCountLikesAndDislikesForMedia(pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId)
+        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
         {
-            List<BookStore.Business.Entities.Media> internalResult = DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            List<BookStore.Business.Entities.Media> internalResult = DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
             List<BookStore.Services.MessageTypes.Media> externalResult = MessageTypeConverter.Instance.Convert<
                 List<BookStore.Business.Entities.Media>,
-                List<BookStore.Services.MessageTypes.Media>>(DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId));
+                List<BookStore.Services.MessageTypes.Media>>(DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId));
 
             return externalResult;
         }

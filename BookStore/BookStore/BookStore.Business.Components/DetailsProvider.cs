@@ -22,7 +22,7 @@ namespace BookStore.Business.Components
                         select Rating.User.Id).Count());
             }
         }
-        public List<BookStore.Business.Entities.Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId) 
+        public List<BookStore.Business.Entities.Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId) 
         {
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
         {
@@ -30,7 +30,7 @@ namespace BookStore.Business.Components
                                 where Rating1.Media.Id == pMediaId && Rating1.Like == true
                                 select Rating1.User.Id).ToList();
                 var internalResult = (from Rating in lContainer.Ratings.Include("Media.Stocks").Include("User").Include("Media.Purchases").Include("Media.Ratings")
-                                      where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Media.Id != pMediaId
+                                      where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Media.Id != pMediaId && Rating.User.Id != pUserId
                         select Rating.Media).ToList<Media>();
 
                 return internalResult;
