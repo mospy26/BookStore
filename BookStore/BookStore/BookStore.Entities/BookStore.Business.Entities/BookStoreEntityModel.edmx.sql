@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/28/2020 02:06:33
+-- Date Created: 03/28/2020 02:17:09
 -- Generated from EDMX file: C:\Users\Mustafa Fulwala\Documents\BookStore\BookStore\BookStore\BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx
 -- --------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE [dbo].[Users] (
     [Name] nvarchar(max)  NOT NULL,
     [Address] nvarchar(max)  NULL,
     [Email] nvarchar(max)  NOT NULL,
-    [Revision] varbinary(max)  NOT NULL,
+    [Revision] timestamp  NOT NULL,
     [LoginCredential_Id] int  NOT NULL
 );
 GO

@@ -26,23 +26,29 @@ namespace BookStore.Business.Components
         {
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
         {
-                var SubQuery = (from Rating1 in lContainer.Ratings.Include("Media").Include("User")
+                var SubQuery = (from Rating1 in lContainer.Ratings.Include("Media.Stocks").Include("User").Include("Media.Purchases").Include("Media.Ratings")
                                 where Rating1.Media.Id == pMediaId && Rating1.Like == true
                                 select Rating1.User.Id).ToList();
-                return (from Rating in lContainer.Ratings.Include("Media").Include("User")
-                        where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Media.Id != pMediaId
-                        select Rating.Media).ToList();
+                var internalResult = (from Rating in lContainer.Ratings.Include("Media.Stocks").Include("User").Include("Media.Purchases").Include("Media.Ratings")
+                                      where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Media.Id != pMediaId
+                        select Rating.Media).ToList<Media>();
+
+                return internalResult;
             }
         }
 
 
         public Rating GetRating(int pUserId, int pMediaId)
         {
+
+            using (TransactionScope lScope = new TransactionScope())
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
             {
-                return (from Rating in lContainer.Ratings.Include("Media").Include("User")
-                        where Rating.Media.Id == pMediaId && Rating.User.Id == pUserId
-                        select Rating).SingleOrDefault();
+                Rating internalResult = (from Rating in lContainer.Ratings.Include("Media").Include("User")
+                                         where Rating.Media.Id == pMediaId && Rating.User.Id == pUserId
+                                         select Rating).FirstOrDefault();
+
+                return internalResult;
             }
         }
 
@@ -75,7 +81,7 @@ namespace BookStore.Business.Components
                     if (!CheckIfPurchaseExistsForMedia(pMedia.Id, pUser.Id))
                         throw new UnauthorizedAccessException();
 
-                var Rating = lContainer.Ratings.Include("User").Include("Media").SingleOrDefault(r => r.Media == pMedia && r.User == pUser);
+                var Rating = lContainer.Ratings.Include("User").Include("Media").SingleOrDefault(r => r.Media.Id == pMedia.Id && r.User.Id == pUser.Id);
 
                 if (Rating != null)
                 {
@@ -96,6 +102,9 @@ namespace BookStore.Business.Components
                         User = pUser,
                         Media = pMedia
                     };
+
+                    lContainer.Users.Attach(pUser);
+                    lContainer.Media.Attach(pMedia);
                     lContainer.Ratings.Add(NewRating);
                 }
 

@@ -9,9 +9,5 @@ namespace BookStore.Services.MessageTypes
     public class Rating : MessageType
     {
         public bool Like { get; set; }
-
-        public Media Media { get; set; }
-
-        public User UserId { get; set; }
     }
 }

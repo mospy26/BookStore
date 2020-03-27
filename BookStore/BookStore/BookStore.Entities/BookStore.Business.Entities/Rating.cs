@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace BookStore.Business.Entities
-{
+{   
     using System;
     using System.Collections.Generic;
     

@@ -81,7 +81,7 @@ namespace BookStore.Services
 
         public Destination Convert<Source, Destination>(Source s)
         {
-            var result = AutoMapper.Mapper.Map<Source, Destination>(s);
+            Destination result = AutoMapper.Mapper.Map<Source, Destination>(s);
             return result;
         }
     }

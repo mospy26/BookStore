@@ -26,26 +26,35 @@
         <td> Price: </td>
         <td> @Model.CurrentMedia.Price </td>
     </tr>
+    <tr>
+        <td> Likes: </td>
+        <td> @Model.Likes </td>
+    </tr>
+    <tr>
+        <td> Dislikes: </td>
+        <td> @Model.Dislikes
+        </td>
+    </tr>
 </table>
 
 @if (Model.HasPurchased)
 {
-    <h3> Thanks for Purchasing this book. Did you like this book? </h3>
+    <h3> Thanks for Purchasing this book. </h3>
     if (Model.RatingForBook == null)
     {
         <p> You have not rated this book yet. Please rate it. </p>
-        @Html.ActionLink("Like", "LikeBook", "Details", new { pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
-        @Html.ActionLink("Dislike", "LikeBook", "Details", new { pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
+        <p>@Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
+          @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)</p>
     }
     else if (Model.RatingForBook.Like == true)
     {
         <p> You have Liked this book. </p>
-        @Html.ActionLink("Dislike", "LikeBook", "Details", new { pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
+        @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
     }
     else if (Model.RatingForBook.Like == false)
     {
         <p> You have Disliked this book. </p>
-        @Html.ActionLink("Like", "LikeBook", "Details", new { pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
+        @Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null);
     }
 }
 
@@ -53,5 +62,5 @@
 
 @foreach (var media in Model.RecommendedMedia)
 {
-    <p> media.Title </p>
+    <p> @media.Title </p>
 }

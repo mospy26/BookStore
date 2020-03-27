@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BookStore.Business.Components.Interfaces;
 using BookStore.Services.Interfaces;
-using BookStore.Business.Components.Interfaces;
-using Microsoft.Practices.ServiceLocation;
 using BookStore.Services.MessageTypes;
+using System;
+using System.Collections.Generic;
 
 namespace BookStore.Services
 {
@@ -62,9 +59,10 @@ namespace BookStore.Services
 
         public Rating GetRating(int pUserId, int pMediaId)
         {
+            var internalResult = DetailsProvider.GetRating(pUserId, pMediaId);
             return MessageTypeConverter.Instance.Convert<
                     BookStore.Business.Entities.Rating,
-                    BookStore.Services.MessageTypes.Rating>(DetailsProvider.GetRating(pUserId, pMediaId));
+                    BookStore.Services.MessageTypes.Rating>(internalResult);
         }
 
         public Tuple<int, int> GetLikesAndDislikesForMedia(int pMediaId)
@@ -74,10 +72,10 @@ namespace BookStore.Services
 
         public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId)
         {
-            var internalResult = DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
-            var externalResult = MessageTypeConverter.Instance.Convert<
+            List<BookStore.Business.Entities.Media> internalResult = DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
+            List<BookStore.Services.MessageTypes.Media> externalResult = MessageTypeConverter.Instance.Convert<
                 List<BookStore.Business.Entities.Media>,
-                List<BookStore.Services.MessageTypes.Media>>(internalResult);
+                List<BookStore.Services.MessageTypes.Media>>(DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId));
 
             return externalResult;
         }

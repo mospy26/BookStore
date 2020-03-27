@@ -27,8 +27,8 @@ namespace BookStore.Business.Entities
         public decimal Price { get; set; }
         public int UserId { get; set; }
     
-        public virtual Stock Stocks { get; set; }
-        public virtual ICollection<Purchase> Purchases { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public Stock Stocks { get; set; }
+        public ICollection<Purchase> Purchases { get; set; }
+        public ICollection<Rating> Ratings { get; set; }
     }
 }
