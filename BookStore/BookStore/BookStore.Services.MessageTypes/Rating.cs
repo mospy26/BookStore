@@ -10,7 +10,7 @@ namespace BookStore.Services.MessageTypes
     {
         public bool Like { get; set; }
 
-        public Media Medium { get; set; }
+        public Media Media { get; set; }
 
         public User UserId { get; set; }
     }

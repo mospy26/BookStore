@@ -15,23 +15,23 @@ namespace BookStore.Business.Components
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
             {
                 return Tuple.Create(((from Rating in lContainer.Ratings.Include("Media").Include("User")
-                        where Rating.Like == true && Rating.Medium.Id == pMediaId
+                        where Rating.Like == true && Rating.Media.Id == pMediaId
                         select Rating.User.Id).Count()),  
                        (from Rating in lContainer.Ratings.Include("User").Include("User")
-                        where Rating.Like == false && Rating.Medium.Id == pMediaId
+                        where Rating.Like == false && Rating.Media.Id == pMediaId
                         select Rating.User.Id).Count());
             }
         }
         public List<BookStore.Business.Entities.Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId) 
         {
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
-            {
+        {
                 var SubQuery = (from Rating1 in lContainer.Ratings.Include("Media").Include("User")
-                                where Rating1.Medium.Id == pMediaId && Rating1.Like == true
+                                where Rating1.Media.Id == pMediaId && Rating1.Like == true
                                 select Rating1.User.Id).ToList();
                 return (from Rating in lContainer.Ratings.Include("Media").Include("User")
-                        where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Medium.Id != pMediaId
-                        select Rating.Medium).ToList();
+                        where SubQuery.Contains(Rating.User.Id) && Rating.Like == true && Rating.Media.Id != pMediaId
+                        select Rating.Media).ToList();
             }
         }
 
@@ -41,8 +41,8 @@ namespace BookStore.Business.Components
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
             {
                 return (from Rating in lContainer.Ratings.Include("Media").Include("User")
-                        where Rating.Medium.Id == pMediaId && Rating.User.Id == pUserId
-                        select Rating).Single();
+                        where Rating.Media.Id == pMediaId && Rating.User.Id == pUserId
+                        select Rating).SingleOrDefault();
             }
         }
 
@@ -53,10 +53,12 @@ namespace BookStore.Business.Components
             {
                 Purchase Purchase = new Purchase
                 {
-                    Medium = pMedia,
+                    Media = pMedia,
                     User = pUser
                 };
 
+                lContainer.Users.Attach(pUser);
+                lContainer.Media.Attach(pMedia);
                 lContainer.Purchases.Add(Purchase);
 
                 lContainer.SaveChanges();
@@ -73,7 +75,7 @@ namespace BookStore.Business.Components
                     if (!CheckIfPurchaseExistsForMedia(pMedia.Id, pUser.Id))
                         throw new UnauthorizedAccessException();
 
-                var Rating = lContainer.Ratings.Include("User").Include("Media").SingleOrDefault(r => r.Medium == pMedia && r.User == pUser);
+                var Rating = lContainer.Ratings.Include("User").Include("Media").SingleOrDefault(r => r.Media == pMedia && r.User == pUser);
 
                 if (Rating != null)
                 {
@@ -92,7 +94,7 @@ namespace BookStore.Business.Components
                     {
                         Like = pLike,
                         User = pUser,
-                        Medium = pMedia
+                        Media = pMedia
                     };
                     lContainer.Ratings.Add(NewRating);
                 }
@@ -118,7 +120,7 @@ namespace BookStore.Business.Components
         {
             using (BookStoreEntityModelContainer lContainer = new BookStoreEntityModelContainer())
             {
-                return lContainer.Purchases.Include("User").Include("Medium").SingleOrDefault(p => p.Medium.Id == pMediaId && p.User.Id == pUserId) != null;
+                return lContainer.Purchases.Include("User").Include("Media").SingleOrDefault(p => p.Media.Id == pMediaId && p.User.Id == pUserId) != null;
             }
         }
     }

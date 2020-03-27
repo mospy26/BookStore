@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/15/2020 23:00:16
+-- Date Created: 03/28/2020 02:06:33
 -- Generated from EDMX file: C:\Users\Mustafa Fulwala\Documents\BookStore\BookStore\BookStore\BookStore.Entities\BookStore.Business.Entities\BookStoreEntityModel.edmx
 -- --------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE [dbo].[Users] (
     [Name] nvarchar(max)  NOT NULL,
     [Address] nvarchar(max)  NULL,
     [Email] nvarchar(max)  NOT NULL,
-    [Revision] timestamp  NOT NULL,
+    [Revision] varbinary(max)  NOT NULL,
     [LoginCredential_Id] int  NOT NULL
 );
 GO
@@ -176,7 +176,7 @@ GO
 CREATE TABLE [dbo].[Purchases] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [User_Id] int  NOT NULL,
-    [Medium_Id] int  NOT NULL
+    [Media_Id] int  NOT NULL
 );
 GO
 
@@ -184,7 +184,7 @@ GO
 CREATE TABLE [dbo].[Ratings] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Like] bit  NOT NULL,
-    [Medium_Id] int  NOT NULL,
+    [Media_Id] int  NOT NULL,
     [User_Id] int  NOT NULL
 );
 GO
@@ -399,10 +399,10 @@ ON [dbo].[Purchases]
     ([User_Id]);
 GO
 
--- Creating foreign key on [Medium_Id] in table 'Purchases'
+-- Creating foreign key on [Media_Id] in table 'Purchases'
 ALTER TABLE [dbo].[Purchases]
 ADD CONSTRAINT [FK_PurchaseMedia]
-    FOREIGN KEY ([Medium_Id])
+    FOREIGN KEY ([Media_Id])
     REFERENCES [dbo].[Media]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -411,13 +411,13 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_PurchaseMedia'
 CREATE INDEX [IX_FK_PurchaseMedia]
 ON [dbo].[Purchases]
-    ([Medium_Id]);
+    ([Media_Id]);
 GO
 
--- Creating foreign key on [Medium_Id] in table 'Ratings'
+-- Creating foreign key on [Media_Id] in table 'Ratings'
 ALTER TABLE [dbo].[Ratings]
 ADD CONSTRAINT [FK_RatingMedia]
-    FOREIGN KEY ([Medium_Id])
+    FOREIGN KEY ([Media_Id])
     REFERENCES [dbo].[Media]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -426,7 +426,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RatingMedia'
 CREATE INDEX [IX_FK_RatingMedia]
 ON [dbo].[Ratings]
-    ([Medium_Id]);
+    ([Media_Id]);
 GO
 
 -- Creating foreign key on [User_Id] in table 'Ratings'

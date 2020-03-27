@@ -148,7 +148,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="User_Id" Type="int" Nullable="false" />
-    <Property Name="Medium_Id" Type="int" Nullable="false" />
+    <Property Name="Media_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Ratings">
     <Key>
@@ -156,7 +156,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Like" Type="bit" Nullable="false" />
-    <Property Name="Medium_Id" Type="int" Nullable="false" />
+    <Property Name="Media_Id" Type="int" Nullable="false" />
     <Property Name="User_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UserRole">
@@ -259,7 +259,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Purchase">
-        <PropertyRef Name="Medium_Id" />
+        <PropertyRef Name="Media_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -271,7 +271,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Rating">
-        <PropertyRef Name="Medium_Id" />
+        <PropertyRef Name="Media_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -489,7 +489,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="User" Relationship="BookStoreEntityModel.PurchaseUser" FromRole="Purchase" ToRole="User" />
-          <NavigationProperty Name="Medium" Relationship="BookStoreEntityModel.PurchaseMedia" FromRole="Purchase" ToRole="Media" />
+          <NavigationProperty Name="Media" Relationship="BookStoreEntityModel.PurchaseMedia" FromRole="Purchase" ToRole="Media" />
         </EntityType>
         <Association Name="PurchaseUser">
           <End Type="BookStoreEntityModel.Purchase" Role="Purchase" Multiplicity="*" />
@@ -504,7 +504,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Medium" Relationship="BookStoreEntityModel.RatingMedia" FromRole="Rating" ToRole="Media" />
+          <NavigationProperty Name="Media" Relationship="BookStoreEntityModel.RatingMedia" FromRole="Rating" ToRole="Media" />
           <Property Name="Like" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User" Relationship="BookStoreEntityModel.RatingUser" FromRole="Rating" ToRole="User" />
         </EntityType>
@@ -682,7 +682,7 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="PurchaseMedia" TypeName="BookStoreEntityModel.PurchaseMedia" StoreEntitySet="Purchases">
       <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="Medium_Id" />
+        <ScalarProperty Name="Id" ColumnName="Media_Id" />
       </EndProperty>
       <EndProperty Name="Purchase">
         <ScalarProperty Name="Id" ColumnName="Id" />
@@ -690,7 +690,7 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="RatingMedia" TypeName="BookStoreEntityModel.RatingMedia" StoreEntitySet="Ratings">
       <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="Medium_Id" />
+        <ScalarProperty Name="Id" ColumnName="Media_Id" />
       </EndProperty>
       <EndProperty Name="Rating">
         <ScalarProperty Name="Id" ColumnName="Id" />

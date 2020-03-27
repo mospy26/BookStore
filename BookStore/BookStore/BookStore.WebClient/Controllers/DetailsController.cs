@@ -12,17 +12,22 @@ namespace BookStore.WebClient.Controllers
 
         private DetailsViewModel DetailsViewModel { get; set; }
         // GET: Rated
-        public ActionResult Index(int? pMediaId, string pReturnUrl)
+        public ActionResult Index(int? pMediaId, string pReturnUrl, UserCache pUserCache)
         {
             if (pMediaId == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
 
-            DetailsViewModel = new DetailsViewModel(pMediaId.Value);
+            DetailsViewModel = new DetailsViewModel(pMediaId.Value, pUserCache.Model.Id);
 
             DetailsViewModel.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId.Value);
             return View(DetailsViewModel);
+        }
+
+        public ActionResult LikeBook(int pMediaId, string pReturnUrl, UserCache pUserCache)
+        {
+            return RedirectToAction("Index", new { pMediaId,  pReturnUrl, pUserCache.Model });
         }
     }
 }

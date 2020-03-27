@@ -17,6 +17,6 @@ namespace BookStore.Business.Entities
         public int Id { get; set; }
     
         public virtual User User { get; set; }
-        public virtual Media Medium { get; set; }
+        public virtual Media Media { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace BookStore.Services.MessageTypes
     {
         public User User { get; set; }
 
-        public Media Medium { get; set; }
+        public Media Media { get; set; }
     }
 }

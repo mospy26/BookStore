@@ -5,6 +5,13 @@ using System.Web;
 using BookStore.Services.Interfaces;
 using BookStore.Services.MessageTypes;
 
+
+/* 
+ * 
+ * View Model for the new Details Page
+ * Returns data from database and stores rating in the database
+ * 
+ */
 namespace BookStore.WebClient.ViewModels
 {
     public class DetailsViewModel
@@ -20,12 +27,16 @@ namespace BookStore.WebClient.ViewModels
 
         public List<Media> RecommendedMedia { get; set; }
         public Media CurrentMedia { get; set; }
+        public bool HasPurchased { get; set; }
+        public Rating RatingForBook { get; }
 
 
-        public DetailsViewModel(int pMediaId)
+        public DetailsViewModel(int pMediaId, int pUserId)
         {
             RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
             CurrentMedia = GetMediaById(pMediaId);
+            HasPurchased = HasPurchasedMedia(pMediaId, pUserId);
+            RatingForBook = GetRating(pUserId, pMediaId);
         }
 
         public Media GetMediaById(int id)
@@ -47,6 +58,16 @@ namespace BookStore.WebClient.ViewModels
         {
             RecommendedMedia = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId);
             return RecommendedMedia;
+        }
+
+        public bool HasPurchasedMedia(int pMediaId, int pUserId)
+        {
+            return CatalogueService.CheckIfPurchaseExistsForMedia(pMediaId, pUserId);
+        }
+
+        public void RateMedia(bool pLike, int pMediaId, User pUser)
+        {
+            CatalogueService.RateMedia(pLike, pUser, CatalogueService.GetMediaById(pMediaId));
         }
     }
 }
