@@ -25,7 +25,7 @@ namespace BookStore.WebClient.Controllers
             return View(DetailsViewModel);
         }
 
-        public ActionResult LikeBook(bool pLike, int pMediaId, string pReturnUrl, UserCache pUserCache)
+        public ActionResult RateBook(bool pLike, int pMediaId, string pReturnUrl, UserCache pUserCache)
         {
             if (DetailsViewModel == null) DetailsViewModel = new DetailsViewModel(pMediaId, pUserCache.Model.Id);
             DetailsViewModel.RateMedia(pLike, pMediaId, pUserCache.Model);

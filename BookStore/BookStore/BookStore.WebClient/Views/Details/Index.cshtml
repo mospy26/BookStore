@@ -5,7 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details for @Model.CurrentMedia.Title </h2>
+<!-- Add icon library : https://www.w3schools.com/howto/howto_js_toggle_like.asp -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<h2>Details for <strong style="color: blue;">@Model.CurrentMedia.Title </strong></h2>
 
 <p>
     <tr>
@@ -47,31 +50,33 @@
 </p>
 
 
-    @if (Model.HasPurchased)
+@if (Model.HasPurchased)
+{
+    <h3> Rate this book? </h3>
+    if (Model.RatingForBook == null)
     {
-        <h3> Thanks for Purchasing this book. </h3>
-        if (Model.RatingForBook == null)
-        {
-            <i> You have not rated this book yet. Please rate it. </i>
-            <p>
-                @Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
-                @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
-            </p>
-        }
-        else if (Model.RatingForBook.Like == true)
-        {
-            <i> You have Liked this book. </i>
-            @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
-        }
-        else if (Model.RatingForBook.Like == false)
-        {
-            <i> You have Disliked this book. </i>
-            @Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
-        }
+        <p><i> You have not rated this book yet, would you like to rate it? </i></p>
+        <p>
+            <i class="fa fa-thumbs-up" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
+            <i class="fa fa-thumbs-down" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
+        </p>
     }
+    else if (Model.RatingForBook.Like == true)
+    {
+        <p><i> You have Liked this item. Dislike? </i></p>
+        <i class="fa fa-thumbs-up" style="color: #9a9c9c; font-size: 30px; opacity: 0.3;">&nbsp;</i>
+        <i class="fa fa-thumbs-down" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
+    }
+    else if (Model.RatingForBook.Like == false)
+    {
+        <p><i> You have Disliked this item. Like? </i></p>
+        <i class="fa fa-thumbs-up" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
+        <i class="fa fa-thumbs-down" style="color: dimgrey; font-size: 30px; opacity: 0.3;"></i>
+    }
+}
 
 
-<h3> People also liked: </h3>
+<h3> People also liked </h3>
 
 @if (Model.RecommendedMedia.Count == 0)
 {
