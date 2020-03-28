@@ -1,4 +1,5 @@
-﻿
+﻿@model BookStore.WebClient.ViewModels.DetailsViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,7 +33,8 @@
     </tr>
     <tr>
         <td> Dislikes: </td>
-        <td> @Model.Dislikes
+        <td>
+            @Model.Dislikes
         </td>
     </tr>
 </table>
@@ -43,8 +45,10 @@
     if (Model.RatingForBook == null)
     {
         <i> You have not rated this book yet. Please rate it. </i>
-        <p>@Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
-          @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)</p>
+        <p>
+            @Html.ActionLink("Like", "LikeBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
+            @Html.ActionLink("Dislike", "LikeBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" }, null)
+        </p>
     }
     else if (Model.RatingForBook.Like == true)
     {
@@ -67,5 +71,9 @@
 
 @foreach (var media in Model.RecommendedMedia)
 {
-    <p> @media.Title </p>
+    <tr>
+        <td>
+            <p>@Html.ActionLink(media.Title, "Index", "Details", new { pMediaId = media.Id, pReturnUrl = ViewContext.HttpContext.Request.Url.PathAndQuery }, null)</p>
+        </td>
+    </tr>
 }
