@@ -40,7 +40,7 @@ namespace BookStore.WebClient.ViewModels
             CurrentMedia = GetMediaById(pMediaId);
             HasPurchased = HasPurchasedMedia(pMediaId, pUserId);
             RatingForBook = GetRating(pUserId, pMediaId);
-            RefreshLikesAndDislikesForMedia(pMediaId);
+            Refresh(pMediaId, pUserId);
         }
 
         public Media GetMediaById(int id)
@@ -74,11 +74,12 @@ namespace BookStore.WebClient.ViewModels
             CatalogueService.RateMedia(pLike, pUser, CatalogueService.GetMediaById(pMediaId));
         }
 
-        public void RefreshLikesAndDislikesForMedia(int pMediaId)
+        public void Refresh(int pMediaId, int pUserId)
         {
             Tuple<int, int> LikesAndDislikes = GetLikesAndDislikesForMedia(pMediaId);
             Likes = LikesAndDislikes.Item1;
             Dislikes = LikesAndDislikes.Item2;
+            RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
         }
     }
 }

@@ -19,15 +19,17 @@ namespace BookStore.WebClient.Controllers
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
 
-            DetailsViewModel = new DetailsViewModel(pMediaId.Value, pUserCache.Model.Id);
+            if (DetailsViewModel == null) DetailsViewModel = new DetailsViewModel(pMediaId.Value, pUserCache.Model.Id);
+            else DetailsViewModel.Refresh(pMediaId.Value, pUserCache.Model.Id);
 
             return View(DetailsViewModel);
         }
 
         public ActionResult LikeBook(bool pLike, int pMediaId, string pReturnUrl, UserCache pUserCache)
         {
-            DetailsViewModel = new DetailsViewModel(pMediaId, pUserCache.Model.Id);
+            if (DetailsViewModel == null) DetailsViewModel = new DetailsViewModel(pMediaId, pUserCache.Model.Id);
             DetailsViewModel.RateMedia(pLike, pMediaId, pUserCache.Model);
+
             return RedirectToAction("Index", new { pMediaId,  pReturnUrl, pUserCache.Model });
         }
     }
