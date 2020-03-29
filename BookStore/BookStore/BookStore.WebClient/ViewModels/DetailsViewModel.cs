@@ -9,7 +9,7 @@ using BookStore.Services.MessageTypes;
 /* 
  * 
  * View Model for the new Details Page
- * Returns data from database and stores rating in the database
+ * Returns details related data from database and stores rating in the database
  * 
  */
 namespace BookStore.WebClient.ViewModels
@@ -36,7 +36,7 @@ namespace BookStore.WebClient.ViewModels
 
         public DetailsViewModel(int pMediaId, int pUserId)
         {
-            RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
+            RecommendedMedia = GetRecommendedMedia(pMediaId, pUserId);
             CurrentMedia = GetMediaById(pMediaId);
             HasPurchased = HasPurchasedMedia(pMediaId, pUserId);
             RatingForBook = GetRating(pUserId, pMediaId);
@@ -48,38 +48,56 @@ namespace BookStore.WebClient.ViewModels
             return CatalogueService.GetMediaById(id);
         }
 
+        /*
+         * Retrieves likes and dislikes for a given media as a tuple
+         */
         public Tuple<int, int> GetLikesAndDislikesForMedia(int pMediaId)
         {
             return CatalogueService.GetLikesAndDislikesForMedia(pMediaId);
         }
 
+        /*
+         * Gets the looged in user's rating for a media
+         */
         public Rating GetRating(int pUserId, int pMediaId)
         {
             return CatalogueService.GetRating(pUserId, pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
+        /*
+         * Gets a list of media that users liked who liked the given media liked
+         */
+        public List<Media> GetRecommendedMedia(int pMediaId, int pUserId)
         {
-            RecommendedMedia = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
+            RecommendedMedia = CatalogueService.GetRecommendedMedia(pMediaId, pUserId);
             return RecommendedMedia;
         }
 
+        /*
+         * Checks if the logged in user has purchased a given media
+         */
         public bool HasPurchasedMedia(int pMediaId, int pUserId)
         {
             return CatalogueService.CheckIfPurchaseExistsForMedia(pMediaId, pUserId);
         }
 
+        /*
+         * Allows a logged in user to rate a media
+         */
         public void RateMedia(bool pLike, int pMediaId, User pUser)
         {
             CatalogueService.RateMedia(pLike, pUser, CatalogueService.GetMediaById(pMediaId));
         }
 
+        /*
+         * Refreshes display data after a rate is made
+         */
         public void Refresh(int pMediaId, int pUserId)
         {
             Tuple<int, int> LikesAndDislikes = GetLikesAndDislikesForMedia(pMediaId);
             Likes = LikesAndDislikes.Item1;
             Dislikes = LikesAndDislikes.Item2;
-            RecommendedMedia = GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
+            RecommendedMedia = GetRecommendedMedia(pMediaId, pUserId);
         }
     }
 }

@@ -44,9 +44,9 @@ namespace BookStore.WebClient.ViewModels
             return CatalogueService.GetRating(pUserId, pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
+        public List<Media> GetRecommendedMedia(int pMediaId, int pUserId)
         {
-            RecommendedItems = CatalogueService.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
+            RecommendedItems = CatalogueService.GetRecommendedMedia(pMediaId, pUserId);
             return RecommendedItems;
         }
     }

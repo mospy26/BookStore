@@ -63,16 +63,7 @@ namespace BookStore.WebClient.ClientModels
 
         public void AddPurchase(UserCache pUserCache, OrderItem pOrderItem)
         {
-            if (CheckIfPurchaseAlreadyExists(pUserCache, pOrderItem.Media.Id)) return;
-            ServiceFactory.Instance.CatalogueService.AddPurchase(
-                ServiceFactory.Instance.CatalogueService.GetMediaById(pOrderItem.Media.Id),
-                pUserCache.Model
-                );
-        }
-
-        private bool CheckIfPurchaseAlreadyExists(UserCache pUserCache, int pMediaId)
-        {
-            return (ServiceFactory.Instance.CatalogueService.CheckIfPurchaseExistsForMedia(pMediaId, pUserCache.Model.Id));
+            ServiceFactory.Instance.CatalogueService.AddPurchase(ServiceFactory.Instance.CatalogueService.GetMediaById(pOrderItem.Media.Id), pUserCache.Model);
         }
     }
 }

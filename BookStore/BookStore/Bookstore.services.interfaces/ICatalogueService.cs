@@ -26,7 +26,7 @@ namespace BookStore.Services.Interfaces
         Tuple<int, int> GetLikesAndDislikesForMedia(int pMediaId);
 
         [OperationContract]
-        List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId);
+        List<Media> GetRecommendedMedia(int pMediaId, int pUserId);
 
         [OperationContract]
         bool CheckIfPurchaseExistsForMedia(int pMediaId, int pUserId);

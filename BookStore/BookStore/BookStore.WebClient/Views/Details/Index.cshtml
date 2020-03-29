@@ -30,7 +30,7 @@
 </p>
 <p>
     <tr>
-        <td> Price: </td>
+        <td> Price: $</td>
         <td> @Model.CurrentMedia.Price </td>
     </tr>
 </p>
@@ -43,9 +43,7 @@
 <p>
     <tr>
         <td> Dislikes: </td>
-        <td>
-            @Model.Dislikes
-        </td>
+        <td> @Model.Dislikes </td>
     </tr>
 </p>
 
@@ -57,21 +55,21 @@
     {
         <p><i> You have not rated this book yet, would you like to rate it? </i></p>
         <p>
-            <i class="fa fa-thumbs-up" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
-            <i class="fa fa-thumbs-down" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
+            <i class="fa fa-thumbs-up" style="color: blue; font-size: 30px; cursor: pointer;" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
+            <i class="fa fa-thumbs-down" style="color: blue; font-size: 30px; cursor: pointer;" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
         </p>
     }
     else if (Model.RatingForBook.Like == true)
     {
         <p><i> You have Liked this item. Dislike? </i></p>
-        <i class="fa fa-thumbs-up" style="color: #9a9c9c; font-size: 30px; opacity: 0.3;">&nbsp;</i>
-        <i class="fa fa-thumbs-down" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
+        <i class="fa fa-thumbs-up like" style="color: #9a9c9c; font-size: 30px; opacity: 0.3;">&nbsp;</i>
+        <i class="fa fa-thumbs-down dislike" style="color: blue; font-size: 30px; cursor: pointer;" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = false, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'"></i>
     }
     else if (Model.RatingForBook.Like == false)
     {
         <p><i> You have Disliked this item. Like? </i></p>
-        <i class="fa fa-thumbs-up" style="color: blue; font-size: 30px" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
-        <i class="fa fa-thumbs-down" style="color: dimgrey; font-size: 30px; opacity: 0.3;"></i>
+        <i class="fa fa-thumbs-up like" style="color: blue; font-size: 30px; cursor: pointer;" onclick="location.href='@Url.Action("RateBook", "Details", new { pLike = true, pMediaId = Model.CurrentMedia.Id, pReturnUrl = "" })'">&nbsp;</i>
+        <i class="fa fa-thumbs-down dislike" style="color: dimgrey; font-size: 30px; opacity: 0.3;"></i>
     }
 }
 

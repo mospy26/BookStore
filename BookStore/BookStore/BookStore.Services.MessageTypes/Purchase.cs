@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/*
+ * Purchase MessageType for Purchase Model
+ */
 namespace BookStore.Services.MessageTypes
 {
     public class Purchase : MessageType

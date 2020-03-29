@@ -45,6 +45,9 @@ namespace BookStore.Services
             return external;
         }
 
+        /*
+         * Rates media
+         */
         public void RateMedia(bool pLike, User pUser, Media pMedia)
         {
             DetailsProvider.RateMedia(
@@ -70,12 +73,11 @@ namespace BookStore.Services
             return DetailsProvider.GetCountLikesAndDislikesForMedia(pMediaId);
         }
 
-        public List<Media> GetMediaLikedByUsersWhoLikedThisMedia(int pMediaId, int pUserId)
+        public List<Media> GetRecommendedMedia(int pMediaId, int pUserId)
         {
-            List<BookStore.Business.Entities.Media> internalResult = DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId);
             List<BookStore.Services.MessageTypes.Media> externalResult = MessageTypeConverter.Instance.Convert<
                 List<BookStore.Business.Entities.Media>,
-                List<BookStore.Services.MessageTypes.Media>>(DetailsProvider.GetMediaLikedByUsersWhoLikedThisMedia(pMediaId, pUserId));
+                List<BookStore.Services.MessageTypes.Media>>(DetailsProvider.GetRecommendedMedia(pMediaId, pUserId));
 
             return externalResult;
         }
@@ -84,7 +86,10 @@ namespace BookStore.Services
         {
             return DetailsProvider.CheckIfPurchaseExistsForMedia(pMediaId, pUserId);
         }
-
+        
+        /*
+        * Adds a new purchase of a book into db
+         */
         public void AddPurchase(Media pMedia, User pUser)
         {
             DetailsProvider.AddPurchase(
